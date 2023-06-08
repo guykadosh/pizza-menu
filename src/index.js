@@ -71,32 +71,33 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza
+
+      <ul className="pizzas">
+        {pizzaData.map(pizza => (
+          <Pizza pizza={pizza} key={pizza.name} />
+        ))}
+      </ul>
+      {/* <Pizza
         name="Pizza Prosciutto"
         ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
         photoPath="pizzas/prosciutto.jpg"
         price={8}
-      />
-      <Pizza
-        name="Pizza Funghi"
-        ingredients="Tomato, mushrooms"
-        photoPath="pizzas/funghi.jpg"
-        price={10}
-      />
+      /> */}
     </main>
   )
 }
 
-function Pizza({ name, ingredients, photoPath, price }) {
+function Pizza({ pizza }) {
+  const { name, ingredients, photoName, price } = pizza
   return (
-    <div className="pizza">
-      <img src={photoPath} alt="{name}" />
+    <li className="pizza">
+      <img src={photoName} alt="{name}" />
       <div>
         <h3>{name}</h3>
         <p>{ingredients}</p>
-        <span>{price + 3}</span>
+        <span>{price}</span>
       </div>
-    </div>
+    </li>
   )
 }
 
@@ -104,8 +105,7 @@ function Footer() {
   const hour = new Date().getHours()
   const openHour = 12
   const closeHour = 22
-  const isOpen = hour >= openHour && hour <= closeHour
-  console.log(isOpen)
+  // const isOpen = hour >= openHour && hour <= closeHour
 
   // if (hour >= openHour && hour <= closeHour) alert("We're currently open")
   // else alert("Sorry we're closed")
