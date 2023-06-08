@@ -73,12 +73,19 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our menu</h2>
+
       {numPizzas ? (
-        <ul className="pizzas">
-          {pizzas.map(pizza => (
-            <Pizza pizza={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map(pizza => (
+              <Pizza pizza={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still working on our menu. Please come back later :)</p>
       )}
@@ -94,14 +101,17 @@ function Menu() {
 }
 
 function Pizza({ pizza }) {
-  const { name, ingredients, photoName, price } = pizza
+  const { name, ingredients, photoName, price, soldOut } = pizza
+
+  // if (pizza.soldOut) return null
+
   return (
-    <li className="pizza">
+    <li className={`pizza ${soldOut ? 'sold-out' : ''}`}>
       <img src={photoName} alt="{name}" />
       <div>
         <h3>{name}</h3>
         <p>{ingredients}</p>
-        <span>{price}</span>
+        <span>{soldOut ? 'SOLD OUT' : price}</span>
       </div>
     </li>
   )
@@ -118,21 +128,29 @@ function Footer() {
 
   return (
     <footer className="footer">
-      <div className="order">
-        {isOpen ? (
-          <p>We're open until {closeHour}:00. Come visit us ot order online.</p>
-        ) : (
-          <p>
-            We're Happy to welcome you between {openHour}:00 and {closeHour}:00.
-          </p>
-        )}
-        <button className="btn">Order</button>
-      </div>
+      {isOpen ? (
+        <Order closeHour={closeHour} openHour={openHour} />
+      ) : (
+        <p>
+          We're Happy to welcome you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
     </footer>
   )
   // return React.createElement('footer', null, "We're currently open!")
 }
 
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
+        online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
+  )
+}
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
